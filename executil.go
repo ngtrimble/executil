@@ -17,7 +17,7 @@ func StartWaitCombined(cmd *exec.Cmd) error {
 	return StartWait(cmd, os.Stdout, os.Stderr)
 }
 
-//StartWait exec's cmd, waits and streams outputs continously stdoutDst and stderrDst.
+//StartWait exec's cmd, waits and streams outputs continously to stdoutDst and stderrDst.
 func StartWait(cmd *exec.Cmd, stdoutDst io.Writer, stderrDst io.Writer) error {
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {

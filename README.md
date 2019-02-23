@@ -4,10 +4,6 @@
 
 This package provides some convenient wrappers around os/exec.
 
-## Usage
-
-TODO
-
 ## Docs
 
-TODO
+See [executil on godoc.org]https://godoc.org/github.com/ngtrimble/executil

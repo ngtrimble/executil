@@ -6,20 +6,18 @@ import (
 	"os/exec"
 )
 
-//StartWaitCombinedStdout is used to run a command and have its outputs stream
-//continously to stdout of the current process.
+//StartWaitCombinedStdout executes StartWait using os.Stdout as output destinations
 func StartWaitCombinedStdout(cmd *exec.Cmd) error {
 	return StartWait(cmd, os.Stdout, os.Stdout)
 }
 
-//StartWaitCombined is used to run a command and have its outputs stream
-//continously to stdout and stderr of the current process.
+//StartWaitCombined executes StartWait using os.Stdout and os.Stderr as output 
+//destinations
 func StartWaitCombined(cmd *exec.Cmd) error {
 	return StartWait(cmd, os.Stdout, os.Stderr)
 }
 
-//StartWait is used to run a command have its outputs stream continously to
-//stdoutDst and stderrDst.
+//StartWait exec's cmd, waits and streams outputs continously stdoutDst and stderrDst.
 func StartWait(cmd *exec.Cmd, stdoutDst io.Writer, stderrDst io.Writer) error {
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {

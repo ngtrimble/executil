@@ -70,3 +70,37 @@ func TestStartWait(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestStartWaitPipe(t *testing.T) {
+	x := runtime.NumGoroutine()
+
+	cmd1 := exec.Command("echo", "hello world")
+	cmd2 := exec.Command("cat")
+	stdout, stderr, err := StartWaitPipe(nil, cmd1, cmd2)
+	if err != nil {
+		t.Logf("%v", err)
+		t.Fail()
+	}
+
+	stdoutBuff := bytes.Buffer{}
+	stdoutBuff.ReadFrom(stdout)
+
+	if stdoutBuff.String() != "hello world\n" {
+		t.Logf("This is captured from stdout: %s", stdoutBuff.String())
+		t.Fail()
+	}
+
+	stderrBuff := bytes.Buffer{}
+	stderrBuff.ReadFrom(stderr)
+
+	if stderrBuff.String() != "" {
+		t.Logf("This is captured from stderr: %s", stderrBuff.String())
+		t.Fail()
+	}
+
+	y := runtime.NumGoroutine()
+	if x != y {
+		t.Logf("You're leaking goroutines...")
+		t.Fail()
+	}
+}

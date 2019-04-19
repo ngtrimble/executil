@@ -1,26 +1,45 @@
 package shell
 
 import (
+	"bytes"
+	"fmt"
 	"testing"
 )
 
 const (
-	testScript1 = `
-#!/bin/bash
+	testScript1 = `#!/bin/bash
 
 echo "Hello From testScript1"
 
 for f in *; do
 	echo $f
 done
-
-echo $1
-echo $2
 `
 )
 
+func TestRunCombined(t *testing.T) {
+	RunCombined("ls -l")
+	RunCombined(testScript1)
+	RunCombined("test/testscript2.sh Hello World")
+}
+
 func TestRun(t *testing.T) {
-	Run("ls", "-l")
-	Run(testScript1, "arg_1", "arg_2")
-	Run("test/testscript2.sh", "arg_1", "arg_2")
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+
+	Run("ls -l", stdout, stderr)
+	fmt.Printf("%s", stdout.String())
+	fmt.Printf("%s", stderr.String())
+
+	stdout.Reset()
+	stderr.Reset()
+	Run(testScript1, stdout, stderr)
+	fmt.Printf("%s", stdout.String())
+	fmt.Printf("%s", stderr.String())
+
+	stdout.Reset()
+	stderr.Reset()
+	Run("test/testscript2.sh Hello World", stdout, stderr)
+	fmt.Printf("%s", stdout.String())
+	fmt.Printf("%s", stderr.String())
 }

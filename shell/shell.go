@@ -1,16 +1,24 @@
 package shell
 
 import (
-	"fmt"
+	"io"
 	"os/exec"
 
 	"github.com/ngtrimble/executil"
 )
 
-//Run will run cmd using sh on
-func Run(shellCmd string, args ...string) error {
-	args = append([]string{"-c", shellCmd}, args...)
-	fmt.Printf("%v\n", args)
+//RunCombined will execute 'sh -c shellCmd'. Stdout and and stderr will be written
+//to stdout and stderr of the current process.
+func RunCombined(shellCmd string) error {
+	args := append([]string{"-c", shellCmd})
 	cmd := exec.Command("sh", args...)
 	return executil.StartWaitCombined(cmd)
+}
+
+//Run will execute 'sh -c shellCmd'. Stdout and stderr will be written to
+//stdout and stderr respectively.
+func Run(shellCmd string, stdout, stderr io.Writer) error {
+	args := append([]string{"-c", shellCmd})
+	cmd := exec.Command("sh", args...)
+	return executil.StartWait(cmd, stdout, stderr)
 }

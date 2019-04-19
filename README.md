@@ -29,3 +29,9 @@ This is equivalent to running the following in the a shell
 ```
 echo "hello world" | cat
 ```
+
+## Run all tests recursively with stdout and stderr output to shell
+
+```
+go test ./... -v
+```

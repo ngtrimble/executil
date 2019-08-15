@@ -17,8 +17,9 @@ func RunCombined(shellCmd string) error {
 
 //Run will execute 'sh -c shellCmd'. Stdout and stderr will be written to
 //stdout and stderr respectively.
-func Run(shellCmd string, stdout, stderr io.Writer) error {
+func Run(shellCmd string, stdout, stderr io.Writer, env []string) error {
 	args := append([]string{"-c", shellCmd})
 	cmd := exec.Command("sh", args...)
+	cmd.Env = env
 	return executil.StartWait(cmd, stdout, stderr)
 }

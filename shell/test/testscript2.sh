@@ -7,3 +7,5 @@ for f in *; do
 done
 
 echo "$1 $2"
+
+echo "\$FOO=$FOO"

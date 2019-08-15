@@ -27,19 +27,19 @@ func TestRun(t *testing.T) {
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
 
-	Run("ls -l", stdout, stderr)
+	Run("ls -l", stdout, stderr, []string{})
 	fmt.Printf("%s", stdout.String())
 	fmt.Printf("%s", stderr.String())
 
 	stdout.Reset()
 	stderr.Reset()
-	Run(testScript1, stdout, stderr)
+	Run(testScript1, stdout, stderr, []string{})
 	fmt.Printf("%s", stdout.String())
 	fmt.Printf("%s", stderr.String())
 
 	stdout.Reset()
 	stderr.Reset()
-	Run("test/testscript2.sh Hello World", stdout, stderr)
+	Run("test/testscript2.sh Hello World", stdout, stderr, []string{"FOO=bar"})
 	fmt.Printf("%s", stdout.String())
 	fmt.Printf("%s", stderr.String())
 }
